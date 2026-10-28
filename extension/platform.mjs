@@ -13,10 +13,8 @@ export async function rpc(type,extra={}){
  if(isExtension){
   const r=await chrome.runtime.sendMessage({type,...extra});
   if(['check','state'].includes(type)&&(!r?.ok||r.value?.schema!==3||!r.value.paperProtocols?.includes('paper.v2'))){
-   // An unpacked popup can change on disk while its old worker is still registered.
-   const {paperV2Reloaded}=await storage.get('paperV2Reloaded');
-   if(!paperV2Reloaded){await storage.set({paperV2Reloaded:true});chrome.runtime.reload();}
-   throw Error('插件更新尚未完成，请重新加载接笔。');
+   // An upgrade may request new site access. Never reload before the user reviews it.
+   throw Error('插件更新尚未完成，请在扩展程序中重新加载接笔；原稿已保留。');
   }
   if(!r?.ok)throw Error(r?.error||'交接暂时不可用');return r.value;
  }

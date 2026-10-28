@@ -102,6 +102,17 @@ def validate_groups(groups, strokes, limit=100):
     return [{'id': g['id'], 'strokeIds': g['strokeIds']} for g in groups]
 
 
+def validate_image(image):
+    require(isinstance(image,str) and len(image)<=2000000,'画布快照无效')
+    try:
+        with Image.open(io.BytesIO(base64.b64decode(image,validate=True))) as im:
+            require(im.size==(612,612) and im.format=='PNG','画布快照尺寸无效')
+            im.verify()
+    except (OSError, SyntaxError, Image.DecompressionBombError):
+        raise ValueError('画布快照无效') from None
+    return image
+
+
 def validate_input(data):
     require(isinstance(data, dict), '请求格式无效')
     if data.get('protocol') == 'paper.v2':
@@ -116,12 +127,7 @@ def validate_input(data):
     paper_text, paper_notes = data.get('paperText', ''), data.get('paperNotes', [])
     require(isinstance(paper_text, str) and len(paper_text) <= 2000, '纸上文字过长')
     require(isinstance(paper_notes, list) and len(paper_notes) <= 20 and all(isinstance(n, str) and len(n) <= 80 for n in paper_notes), '纸边批注无效')
-    image = data.get('image', '')
-    require(isinstance(image, str) and len(image) <= 2000000, '画布快照无效')
-    image_bytes = base64.b64decode(image, validate=True)
-    with Image.open(io.BytesIO(image_bytes)) as im:
-        require(im.size == (612, 612) and im.format == 'PNG', '画布快照尺寸无效')
-        im.verify()
+    image = validate_image(data.get('image', ''))
     return dict(version=version, strokes=strokes, groups=groups, cue=cue, changes=changes,
                 paperText=paper_text, paperNotes=paper_notes, image=image)
 
@@ -173,10 +179,7 @@ def validate_sheet_input(data):
         require(isinstance(turn,dict) and isinstance(turn.get('jobId'),str) and isinstance(turn.get('human'),dict) and isinstance(turn.get('assistant'),dict), '往来记录无效')
     for change in context['changes']:
         require(isinstance(change,dict) and change.get('type') in ('add','erase','change','groups') and 'before' in change and 'after' in change, '修改前后记录无效')
-    image = data.get('image')
-    require(isinstance(image,str) and len(image)<=2000000,'画布快照无效')
-    with Image.open(io.BytesIO(base64.b64decode(image,validate=True))) as im:
-        require(im.size==(612,612) and im.format=='PNG','画布快照尺寸无效'); im.verify()
+    image = validate_image(data.get('image'))
     return dict(protocol='paper.v2',version=data['version'],strokes=strokes,texts=texts,groups=groups,context=context,image=image)
 
 

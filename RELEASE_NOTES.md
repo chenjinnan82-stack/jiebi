@@ -1,6 +1,6 @@
 # 0.5 preview — October 29, 2026
 
-This is an implementation preview, not a completed competition submission.
+This is an implementation preview, not a completed competition submission. [Static introduction and extension download](https://chenjinnan82-stack.github.io/jiebi/) and [public source](https://github.com/chenjinnan82-stack/jiebi) are available; hosted inference remains pending.
 
 ## Included
 
@@ -24,11 +24,13 @@ Eight of nine responses passed validation. Protected input objects were unchange
 
 Model-request time: median **7.158 s**, range **2.260–13.081 s**. Developer-page visible wait: **2.587–13.358 s**, including 500 ms polling and canvas submission. Nine observations are not a stable P95 estimate. The original 3 s / 5 s targets are not met.
 
-The cumulative project ledger after these tests reports **$0.035729** over 13 calls, with **$0** held. This includes earlier tests and one unintended regression-test call; it is not an account-wide bill. The $1 project cap remains, with development and unknown holds limited to $0.50. Current maximum output is 8,192 tokens and each request reserves $0.321947 before starting; the previous 2,800-token limit could be consumed by reasoning without a usable reply.
+The cumulative project ledger after these tests reports **$0.035729** over 13 calls, with **$0** held. This includes earlier tests and one unintended regression-test call; it is not an account-wide bill. The $1 project cap remains, with development and unknown holds limited to $0.50. Current maximum output is 8,192 tokens and each request reserves $0.321946 before starting; the previous 2,800-token limit could be consumed by reasoning without a usable reply.
 
 ## Verification and remaining gates
 
 Offline checks cover paper edits, Chinese composition events, cancelled gestures, grouping, protection, invalid atomic replies, stop behavior, multiple papers, stale views, persistent leases, offline/repeated submissions, recovery, caller binding, scoped callbacks and money limits. Production-mode smoke testing runs without a real key. These are software checks, not evidence of aesthetic quality or real Chinese IME behavior.
+
+Developer-preview checks also completed ten consecutive empty-paper open/fold cycles without enqueuing a model request (software preparation 1.1–2.0 ms; this excludes animation and is not native Chrome). A local production-mode smoke check used one master plus one worker, with summed idle RSS 73,312 KB and 20 status requests at median 0.75 ms; these are not remote server or model-load measurements.
 
 Pending: the new site permission and actual Chrome curtain upgrade; real cross-tab/IME/ten-minute and continuous-video validation; remote host access and deployment; the free-credit form and expiry; optional live Grok Bot setup; final judging and submission. Prior toolbar-version tests are not a substitute for these.
 

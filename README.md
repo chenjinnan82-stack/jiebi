@@ -4,6 +4,8 @@
 
 Jiebi is an experimental Chrome extension. The paper belongs to you: move an assistant's mark, change its words, erase something you do not want, and hand it back. The assistant can add editable strokes and text, withdraw only its untouched work, or stop.
 
+[Introduction & download](https://chenjinnan82-stack.github.io/jiebi/) · [Verification notes](RELEASE_NOTES.md)
+
 Release status: **0.5 preview**. Local automated checks pass. The new webpage curtain still needs target-Chrome permission/verification, hosted review access, and a final continuous video. Do not treat the development preview as an installed-extension demonstration.
 
 ## Use the paper

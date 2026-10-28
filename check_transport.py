@@ -22,6 +22,8 @@ def rejected(fn):
     except ValueError: return
     raise AssertionError('Invalid request accepted')
 
+rejected(lambda:study.validate_input({**body,'image':base64.b64encode(b'not a PNG').decode()}))
+
 with tempfile.TemporaryDirectory() as tmp:
     dispatched=[]
     jobs=Jobs(Path(tmp)/'jobs.sqlite3',study.validate_input,lambda _: (_ for _ in ()).throw(AssertionError('Wrong recipient')),dispatched.append)

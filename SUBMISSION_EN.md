@@ -61,10 +61,34 @@ Improve how the assistant interprets a person's changes and decides what to keep
 
 - [x] Real Nebius + NVIDIA image and three-round exchange verification (three scenarios; one rejected response and uneven expression disclosed).
 - [ ] Working, free judge access without the author's laptop being online.
-- [ ] Public repository owned by the entrant, with correct license and English setup instructions.
+- [x] Public repository owned by the entrant, with license and English setup instructions: https://github.com/chenjinnan82-stack/jiebi
 - [ ] New curtain permissions and installed-Chrome interaction/performance checks.
 - [ ] Actual Chrome demonstration under three minutes, publicly visible on YouTube, with English narration or captions.
 - [ ] All links checked, limits disclosed, and the provider/model names match the recording.
 - [ ] Final Devpost form, platform feedback, and required account/terms confirmation.
 
 Do not publish verification drafts, absolute personal filesystem paths, API keys, user page logs, or unrelated project history as submission assets.
+
+
+## Prepared form fields
+
+- Project name: **Jiebi — a shared paper beside the web**
+- Tagline: **Write, draw, roll it up. An assistant responds on your paper; your next edit continues the conversation.**
+- Track: **Best Apps and Agents**
+- Built with: **JavaScript, Python, Chrome Extensions, Canvas 2D, Flask, SQLite, NVIDIA Nemotron, Nebius Token Factory**
+- Code: https://github.com/chenjinnan82-stack/jiebi
+- Introduction and download: https://chenjinnan82-stack.github.io/jiebi/
+- Hosted generation / reviewer instructions: **pending**. The introduction URL is not a claim of working hosted inference.
+- Public YouTube video: **pending**. Do not substitute a screenshot sequence or developer harness.
+
+### Platform feedback from actual use
+
+Token Factory let the application send a PNG alongside precise object and edit records without operating a GPU server. Reported token usage was useful for a persistent cost ledger. In the nine latest calls, model latency ranged from 2.260 to 13.081 seconds; this fits an asynchronous handoff better than a live drawing interaction.
+
+A 2,800-token output limit could end before producing useful content; increasing it to 8,192 made room for reasoning and output. JSON-object mode still allowed an invalid flattened point array in one of nine later calls. Clearer per-model structured-output guarantees would help small apps avoid rejection without adding another model call. Our validator kept the original intact.
+
+The optional company-website field in the promotional-credit form rejected the entrant's GitHub profile. The credit application and expiration are not yet verified; no conclusion about long-term free availability is claimed.
+
+### Pre-existing work and changes
+
+SketchAgent and the referenced line-animation techniques predate this project and remain attributed. During this build we added the Chrome paper workflow, positioned editable text, shared text/ink grouping, user-edit protection, a durable asynchronous queue, exact change history, explicit stopping, a per-paper library, isolated iframe curtain, hosted-session boundary and Nebius cost controls. The external Bot interface is prepared but not claimed as a completed live integration.

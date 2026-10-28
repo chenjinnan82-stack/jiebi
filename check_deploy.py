@@ -42,8 +42,14 @@ with log.open('a') as output:
         try: urllib.request.urlopen(f'http://127.0.0.1:{port}/api/jobs',timeout=2)
         except urllib.error.HTTPError as e: assert e.code==401
         else: raise AssertionError('Unauthenticated request accepted')
-        rss=subprocess.check_output(['ps','-o','rss=','-p',str(process.pid)],text=True).strip()
-        report={'kind':'Local production-mode smoke, not remote deployment or inference','requests':20,'medianMs':round(statistics.median(samples),2),'maxMs':round(max(samples),2),'masterRssKB':int(rss),'modelCalls':0}
+        processes=[tuple(map(int,line.split())) for line in subprocess.check_output(['ps','-axo','pid=,ppid=,rss='],text=True).splitlines()]
+        owned={process.pid}
+        while True:
+            extra={pid for pid,parent,rss in processes if parent in owned}-owned
+            if not extra:break
+            owned.update(extra)
+        rss=sum(rss for pid,parent,rss in processes if pid in owned)
+        report={'kind':'Local production-mode smoke, not remote deployment or inference','requests':20,'medianMs':round(statistics.median(samples),2),'maxMs':round(max(samples),2),'idleProcessCount':len(owned),'idleSummedRssKB':rss,'rssNote':'Master and worker RSS summed; shared pages may be counted twice. Not peak or production load.','modelCalls':0}
         (root/'evidence/curtain-release-20261029/gunicorn-local.json').write_text(json.dumps(report,indent=2))
         print(json.dumps(report))
     finally:

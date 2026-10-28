@@ -72,8 +72,8 @@ assert(!(await send({type:'bind',nonce:'forged'},frame)).ok);
 assert((await send({type:'bind',nonce:mount.value.nonce},frame)).ok);
 assert((await send({type:'state'},frame)).ok);
 assert(!(await send({type:'state'},{...frame,documentId:'another-frame'})).ok);
-// A changed unpacked popup must reload an old worker once, not enter a reload loop.
+// A changed unpacked popup must not reload a permission-expanding upgrade automatically.
 let reloads=0;chrome.runtime.sendMessage=async()=>({ok:true,value:null});chrome.runtime.reload=()=>reloads++;
 const platform=await import('./extension/platform.mjs?test=upgrade');
-await assert.rejects(platform.rpc('check'),/更新/);await assert.rejects(platform.rpc('check'),/更新/);assert.equal(reloads,1);
+await assert.rejects(platform.rpc('check'),/更新/);await assert.rejects(platform.rpc('check'),/更新/);assert.equal(reloads,0);
 console.log('PASS: fast local enqueue, latest-only waiting snapshot, concurrent HTTP merge, no AI reply loop, offline pacing, same-ID retry, worker restart, explicit failure, migration, quota protection, sender and badge wiring (mock APIs)');
