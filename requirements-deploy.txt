@@ -1,0 +1,2 @@
+-r requirements-study.txt
+gunicorn==26.2.0

@@ -1,0 +1,34 @@
+// Fixed human-side test inputs, authored before sampling. Never supplied as model answers.
+export const SCENARIOS = [
+ {id:'rain',title:'出门前的犹豫',text:'鞋都穿好了，外面突然下雨了。我有点不想去聚会了。',
+  strokes:[
+   {name:'door',points:[[225,190],[225,410],[365,410],[365,190],[225,190]]},
+   {name:'handle',points:[[340,292],[344,296],[340,300],[336,296],[340,292]],smooth:true},
+   {name:'rain1',points:[[130,180],[116,210]]},{name:'rain2',points:[[158,216],[143,248]]},{name:'rain3',points:[[113,265],[101,296]]}],
+  correction:'不是怕淋湿，我是不太想去那个聚会。',
+  actions:[{type:'erase',name:'rain1'},{type:'erase',name:'rain2'},{type:'erase',name:'rain3'}]},
+ {id:'rest',title:'忙完以后又被打断',text:'终于把拖了很久的东西交了。今晚不想再安排任何事。',
+  strokes:[
+   {name:'box1',points:[[178,205],[202,205],[202,229],[178,229],[178,205]]},
+   {name:'check1',points:[[180,216],[190,224],[208,199]]},
+   {name:'row1',points:[[225,217],[275,215],[343,218]]},
+   {name:'box2',points:[[178,267],[202,267],[202,291],[178,291],[178,267]]},
+   {name:'check2',points:[[180,279],[190,287],[208,263]]},
+   {name:'row2',points:[[225,279],[282,281],[363,277]]},
+   {name:'box3',points:[[178,330],[202,330],[202,354],[178,354],[178,330]]},
+   {name:'check3',points:[[181,342],[189,350],[208,324]]},
+   {name:'row3',points:[[225,343],[270,342],[320,346]]}],
+  correction:'刚又收到一条修改意见。别劝我今晚继续，我只想先关掉它。',
+  actions:[{type:'draw',points:[[157,379],[235,307],[310,243],[378,178]]}]},
+ {id:'friend',title:'临时取消的晚饭',text:'朋友临时取消了晚饭。我有点失落，但也知道她最近很忙。',
+  strokes:[
+   {name:'left',points:[[165,260],[167,308],[196,320],[219,308],[220,260]],smooth:true},
+   {name:'left-rim',points:[[165,260],[191,264],[220,260]],smooth:true},
+   {name:'left-handle',points:[[219,273],[239,272],[242,291],[220,295]],smooth:true},
+   {name:'right',points:[[350,260],[353,308],[380,320],[404,308],[405,260]],smooth:true},
+   {name:'right-rim',points:[[350,260],[377,264],[405,260]],smooth:true},
+   {name:'right-handle',points:[[405,274],[424,274],[426,292],[404,297]],smooth:true},
+   {name:'table',points:[[132,332],[229,336],[338,332],[446,335]],smooth:true}],
+  correction:'其实我不是生她的气，我是想她了。',
+  actions:[{type:'move',names:['right','right-rim','right-handle'],dx:-72,dy:0}]}
+];
