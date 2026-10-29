@@ -129,3 +129,33 @@ try:
   assert response.json['remove']==['ai-old'] and call.call_count==1
 finally:study.recent_calls[:]=old_calls
 print('PASS: AI-only retraction, stale ID rejection, one successful call without resampling or self-review')
+
+# Placement hints occupy actual glyph lines; they neither hide edits nor reserve blank text-box space.
+sheet={'strokes':[],'texts':[{'id':'human-text','text':'你好\nA','x':24.5,'y':30.5,'w':520}],
+       'groups':[],'context':{'turns':[],'changes':[{'type':'erase','before':{'id':'removed','points':[[12,12],[24,24]]},'after':None}]}}
+prompt=study.sheet_prompt(sheet)
+rects=json.loads(prompt.split('MEASURED TEXT KEEP-OUT RECTANGLES [left,top,right,bottom]:\n')[1])
+assert rects==[{'id':'human-text','rectangles':[[20,26,73,59],[20,54,40,87]]}]
+assert 'removed' in prompt and '[[12, 12], [24, 24]]' in prompt
+assert study.sheet_prompt({**sheet,'texts':[]}).endswith('[]')
+print('PASS: measured wrapped-text keep-outs, full edit history retained, empty-paper placement')
+
+# A model-selected frame is a coordinate tool, not an automatic enlargement or icon preset.
+empty={'strokes':[],'texts':[],'groups':[]}
+framed={'decision':'contribute','drawingFrame':[300,140,160,100],'strokes':[{'points':[[0,0],[100,100]],'line':'corner'}],'texts':[],'remove':[]}
+before=json.dumps(framed)
+converted=study.parse_sheet_reply(before,empty)
+assert converted['strokes'][0]['points']==[[300,140],[460,240]] and json.dumps(framed)==before
+for frame in (None,[0,12,100,100],[12,12,0,100],[500,500,101,100],[True,12,100,100]):
+ must_reject(lambda:study.parse_sheet_reply(json.dumps({**framed,'drawingFrame':frame}),empty))
+for point in ([-1,0],[100,101],[True,50],[float('nan'),50],[10]):
+ must_reject(lambda:study.parse_sheet_reply(json.dumps({**framed,'strokes':[{'points':[point]}]}),empty))
+occupied={**empty,'texts':[{'id':'h','author':'human','humanEdited':False,'text':'保留','x':300,'y':140,'w':100}]}
+must_reject(lambda:study.parse_sheet_reply(before,occupied))
+original={'brush':'didan-v1','line':'corner','points':[[12,12],[30,30]],'curves':study.ink_curves([[12,12],[30,30]],'corner'),'humanEdited':True}
+view=study.without_derived_curves({'before':original,'legacy':{**original,'brush':None}})
+assert 'curves' not in view['before'] and view['before']['points']==original['points']
+assert view['before']['humanEdited'] and view['legacy']['curves']==original['curves'] and 'curves' in original
+altered={**original,'curves':[[[12,12],[20,30],[30,30]]]}
+assert study.without_derived_curves(altered)['curves']==altered['curves']
+print('PASS: local frame mapping, malformed/range rejection, post-placement text collision, lossless derived-curve omission')

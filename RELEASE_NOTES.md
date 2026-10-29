@@ -1,3 +1,19 @@
+# 0.5.2 preview — October 29, 2026
+
+This revision refines the existing paper. It does not establish reliable natural conversation or complete competition submission.
+
+- Writing/drawing can be selected directly as well as swiped. Contextual text completion, editing, grouping and deletion share the paper edge; they do not cover the drawing.
+- The header close saves without sending. The roll gives a visible threshold cue and cancelled drags suppress the trailing click. No new permission or dependency.
+- Chinese composition is retained as an unfinished draft until committed; this is covered by event-handler checks, not a claim of native system IME validation.
+- The installed Chrome extension retained an existing paper, accepted writing, changed mode, deleted/undid text, and completed ten save-only open/close cycles with no extra model calls. Full current-version browser restart, system reduced-motion and sustained frame rate remain unmeasured.
+- Optional model-selected local drawing frames now map 0–100 points onto the canonical paper. Only exactly reconstructible derived curves are omitted from requests; original geometry and protection are retained.
+
+The last real three-turn developer-page trial returned a mailbox (9.413 s), then a cup after a correction (9.045 s), then incorrectly added a tray after “no more” (19.596 s). The first two shapes are recognizable, still crude. The third is an expression failure despite valid data. No paid retries or new calls were made for this UI release. Cumulative ledger: **23 calls, $0.081435 reported, $0 held**, within the unchanged $1 total cap and $0.50 development boundary.
+
+The public video remains the explicitly identified **0.5.1 actual Chrome three-turn recording**, not footage of these latest local-frame outputs. Hosted judging, credit expiry, YouTube publication and Devpost submission are tracked separately and are not claimed complete here.
+
+---
+
 # 0.5.1 preview — October 29, 2026
 
 This is an implementation preview, not a completed competition submission. [Static introduction and extension download](https://chenjinnan82-stack.github.io/jiebi/) and [public source](https://github.com/chenjinnan82-stack/jiebi) are available; hosted inference remains pending.

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "接笔 · 共写的纸",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A shared paper beside the web. Write, draw, roll it up, and let an assistant continue on the same page.",
   "minimum_chrome_version": "120",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs9auBGz51J0HsWDes8MJfd5cGWfNGfc4BAWNsKsupbgzS6ZgijFavkysl1hwtxe3agLl4cUGWhjT0Ddyg5AALY48AaLrE3JN33GMpoVs7QVQXCapR8BIsnIM9Ck1Lio63BNsCMhfZ4lXkuGhxvRb9Uer5kLQQvGynPjjDntSGhiALmU3/23yoxcrW5q1Z3gAErEnJ9Z2wDq62pNuwVs99jATeYx6WCE4tbuVwTCCEKne7GBSkVOICVOE+wlMOVg+KbDRfgqlqCcnMSfXrwgTArMixlQ9RRUTUWadzxyuRqhh/9XH9cKIgT9H4Bzo09tdLb714XhPRu1ludaVvqd9HQIDAQAB",

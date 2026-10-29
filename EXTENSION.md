@@ -1,4 +1,4 @@
-# Install and use Jiebi 0.5.1 preview
+# Install and use Jiebi 0.5.2 preview
 
 1. Unzip the extension package, or use the `extension` folder in this repository.
 2. In Chrome, open **Extensions → Manage Extensions**, enable **Developer mode**, choose **Load unpacked**, and select that folder.

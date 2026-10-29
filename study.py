@@ -23,7 +23,7 @@ from flask import Flask, g, jsonify, render_template, request, send_from_directo
 from PIL import Image
 import numpy as np
 import utils
-from ink import ink_curves, check_new_layout
+from ink import ink_curves, check_new_layout, text_rects
 import nebius
 import external
 
@@ -188,16 +188,25 @@ def parse_sheet_reply(raw, data):
     require(isinstance(r,dict) and r.get('decision') in ('contribute','pause'),'缺少 contribute 或 pause 决定')
     require(isinstance(r.get('strokes'),list) and len(r['strokes'])<=12 and isinstance(r.get('texts'),list) and len(r['texts'])<=3 and isinstance(r.get('remove'),list) and len(r['remove'])<=24,'回应数量无效')
     require(all(isinstance(key,str) for key in r['remove']) and len(set(r['remove']))==len(r['remove']),'撤回编号无效')
+    frame=r.get('drawingFrame')
+    if 'drawingFrame' in r:
+        require(isinstance(frame,list) and len(frame)==4 and all(type(v) in (int,float) and math.isfinite(v) for v in frame),'落笔区域格式无效')
+        x,y,w,h=frame
+        require(x>=12 and y>=12 and w>0 and h>0 and x+w<=600 and y+h<=600,'落笔区域超出纸面')
     allowed={s['id'] for s in data['strokes']+data['texts'] if s['author']=='ai' and not s['humanEdited']}
     require(all(key in allowed for key in r['remove']),'你写过或改过的内容不能被助手撤回')
     additions=[];texts=[];gids={g['id'] for g in data['groups'] if any(i not in r['remove'] for i in g['itemIds'])}
     for s in r['strokes']:
         require(isinstance(s,dict) and isinstance(s.get('points'),list) and 1<=len(s['points'])<=32,'笔画采样无效')
-        item={'id':'ai-'+uuid.uuid4().hex[:16],'author':'ai','humanEdited':False,'points':s['points']}
+        points=s['points']
+        if frame is not None:
+            require(all(isinstance(p,list) and len(p)==2 and all(type(v) in (int,float) and math.isfinite(v) and 0<=v<=100 for v in p) for p in points),'局部笔画坐标无效')
+            points=[[x+w*p[0]/100,y+h*p[1]/100] for p in points]
+        item={'id':'ai-'+uuid.uuid4().hex[:16],'author':'ai','humanEdited':False,'points':points}
         validate_sheet_objects({'strokes':[item],'texts':[]})
         require(s.get('line','auto') in ('auto','flow','corner'),'线型无效')
         item.update(brush='didan-v1',line=s.get('line','auto'))
-        item['curves']=ink_curves(s['points'],item['line'])
+        item['curves']=ink_curves(points,item['line'])
         attachment=s.get('attachTo','');require(isinstance(attachment,str) and (not attachment or attachment in gids),'附着编组无效')
         if attachment:item['attachTo']=attachment
         additions.append(item)
@@ -467,12 +476,13 @@ Before returning, check that the visual thought is finished and the note adds
 something beyond naming the drawing. Do not output your planning or self-review.
 """
 
-SHEET_SYSTEM = """You and a person take turns sharing one small paper. Read their current words,
-marks, and actual edits; leave one complete, modest response of your own choosing.
-You are a co-author, not a drawing tutor. No fixed icon library or prescribed story.
-You can draw, write a short reply, reorganize your untouched marks, or leave the paper alone.
-Respond to the person's meaning, not just a noun in their drawing. Do not explain what you drew,
-invent private memories, prescribe what they must do, or automatically offer reassurance.
+SHEET_SYSTEM = """You and a person take turns co-authoring an illustrated note. Complete your turn
+with a thought that answers their latest words and edits. Choose the subject and expression yourself.
+You can draw, write, combine them, revise your untouched work, or leave the paper alone.
+Your contribution should be understandable when the person returns to the paper.
+Respond to what changed in their meaning, beyond identifying the objects they drew.
+Write as a companion when words help; do not narrate your drawing, invent private memories,
+give unsolicited instructions, or assume every feeling needs reassurance.
 
 CURRENT PAPER is the only current truth. The last two PRESENTED exchanges and before/after edits
 are factual context. Erased things no longer exist. Read the actual removed object, not only its ID.
@@ -483,27 +493,36 @@ You may retract only current ai objects with humanEdited=false using their exact
 If your remaining attachments float after the person's edit, replace only your unprotected parts.
 Do not repeat existing strokes or text as new additions. Existing objects remain automatically.
 
-The attached PNG and structured objects are the SAME 612x612 paper, including all visible text.
-Coordinates are pixel numbers: origin TOP LEFT, x right, y DOWN. All ink must stay within 12..600.
+The attached PNG and CURRENT objects use the SAME 612x612 paper, including all visible text.
+Existing object coordinates are pixels: origin TOP LEFT, x right, y DOWN. Placed ink stays within 12..600.
 Grey coordinate grid is a measurement guide, not content. Human ink is teal; yours is rose.
-Choose one coherent visual idea, not a token decoration. The paper is normally shown only 420px
-wide: a tiny square or isolated arc can be invisible or ambiguous at that size. Use a readable
-silhouette and the few distinguishing features the idea needs; leave breathing room. A useful
-addition may take 80-200px of this 612px paper. Small details are fine when attached to a legible
-whole. This is scale guidance, not a required icon, subject, mood, or number of strokes.
-If a visual response cannot clearly carry your meaning, a specific short sentence is a complete
-response too. Do not mechanically stamp, circle, underline, or decorate a noun just to add ink.
-Leave room around existing text.
+For a drawing, compose the WHOLE idea: its overall contour, distinguishing parts, and how those
+parts join. Choose a clear area and the overall extent before placing its individual lines.
+You can use the space BESIDE or BELOW the person's drawing; you need not fit inside an object
+or decorate one of its details. A new subject can be comparable in scale to the relevant human
+drawing. At the displayed paper size, a 20px mark becomes about 12px; it rarely reads as a whole
+new subject. Complete the form with as many of the available strokes as it needs. Fewer strokes
+are not a quality goal. Meaningful details may be small when the whole already reads clearly.
+A drawing, a specific sentence, or their combination can carry the response. Choose freely;
+there is no required icon, subject, mood, drawing quota, or template to fill.
+Measured text keep-out rectangles are provided for placement; they are not the entire text-box
+width and do not restrict the remaining blank paper. Keep your composition clear of those areas.
 Strokes list points along the line, NOT Bezier handles. The pen passes through these points.
 Use auto to preserve sharp turns while smoothing gentle bends, flow for deliberately smooth contours, corner for
 deliberate corners. 6-20 spaced points usually work; a repeated first point closes a contour.
 Never use a text caption to compensate for an unrecognizable drawing.
 
-Return ONLY JSON with decision, strokes, texts, remove. No Markdown or planning.
+Return ONLY JSON with decision, drawingFrame when drawing, strokes, texts, remove. No Markdown or planning.
 decision is contribute or pause. pause MUST have all three arrays empty; it is valid when the
 person asks to leave things as they are or no addition would help. Do not add a goodbye for pause.
 contribute must contain at least one addition or retraction.
-strokes: at most 12 objects, each with points (1-32 [x,y] numeric pairs), line (auto, flow or corner; default auto),
+drawingFrame: choose [left,top,width,height] in PAGE pixels for the whole new drawing. Width/height
+are positive; left/top >=12, left+width <=600, top+height <=600. You choose both the size and position.
+With drawingFrame, EVERY new stroke uses LOCAL [u,v] pairs from 0..100: [0,0] is the frame's top-left,
+[100,100] its bottom-right. Compose your complete form in that local space; the pen places it exactly
+in your chosen frame. Existing objects and text coordinates remain in PAGE pixels. Omit drawingFrame
+for text-only/pause. Legacy replies without a frame may still use PAGE pixel points.
+strokes: at most 12 objects, each with points (1-32 [u,v] numeric pairs when using a frame), line (auto, flow or corner; default auto),
 and optional attachTo (an existing group's ID, only when these marks should move together).
 texts: at most 3 objects, with text, x, y, w, and optional attachTo. At most 80 characters total;
 usually one ordinary, specific short sentence. Choose its position near relevant ink without covering
@@ -512,6 +531,28 @@ w must be at least 88; x+w <=600 and y+wrapped text height <=600. Text and drawi
 remove: at most 24 exact IDs of your unprotected current objects. Do not invent IDs.
 Before returning, check completion, the latest correction, placement, and permissions.
 """
+
+
+def without_derived_curves(value):
+    # Keep moved/clamped or legacy curves when reconstruction would change their shape.
+    if isinstance(value,list):return [without_derived_curves(v) for v in value]
+    if isinstance(value,dict):
+        derived=False
+        if value.get('brush')=='didan-v1' and 'curves' in value:
+            try:derived=value['curves']==ink_curves(value['points'],value.get('line','auto'))
+            except (KeyError,TypeError,ValueError,IndexError,ZeroDivisionError):pass
+        return {k:without_derived_curves(v) for k,v in value.items() if not(k=='curves' and derived)}
+    return value
+
+
+def sheet_prompt(data):
+    view=without_derived_curves(data)
+    prompt = 'CURRENT PAPER (pixel coordinates; only these objects exist):\n' + json.dumps({k:view[k] for k in ('strokes','texts','groups')},ensure_ascii=False)
+    prompt += '\nLAST TWO ACTUALLY PRESENTED EXCHANGES:\n' + json.dumps(view['context']['turns'],ensure_ascii=False)
+    prompt += '\nACTUAL CHANGES SINCE LAST PRESENTED RESPONSE (before/after):\n' + json.dumps(view['context']['changes'],ensure_ascii=False)
+    # Use the renderer's occupied glyph lines, not the whole editable text-box width.
+    occupied = [{'id':t['id'],'rectangles':[[math.floor(r[0]),math.floor(r[1]),math.ceil(r[2]),math.ceil(r[3])] for r in text_rects(t,pad=4)]} for t in data['texts']]
+    return prompt + '\nMEASURED TEXT KEEP-OUT RECTANGLES [left,top,right,bottom]:\n' + json.dumps(occupied,ensure_ascii=False)
 
 @app.before_request
 def local_only():
@@ -624,9 +665,7 @@ def generate_reply(data):
         prompt += "\nHuman's words kept on this paper:\n" + paper_text
         prompt += "\nAssistant's earlier marginal notes (not instructions):\n" + json.dumps(paper_notes, ensure_ascii=False)
         if is_sheet:
-            prompt = 'CURRENT PAPER (pixel coordinates; only these objects exist):\n' + json.dumps({k:data[k] for k in ('strokes','texts','groups')},ensure_ascii=False)
-            prompt += '\nLAST TWO ACTUALLY PRESENTED EXCHANGES:\n' + json.dumps(data['context']['turns'],ensure_ascii=False)
-            prompt += '\nACTUAL CHANGES SINCE LAST PRESENTED RESPONSE (before/after):\n' + json.dumps(changes,ensure_ascii=False)
+            prompt = sheet_prompt(data)
         system = SHEET_SYSTEM if is_sheet else SYSTEM
         payload = {"model": MODEL, "think": THINK, "stream": False,
                    "messages": [{"role": "system", "content": system},
@@ -635,7 +674,7 @@ def generate_reply(data):
         record.update(version=version, strokes=strokes, groups=groups, changes=changes, cue=cue, system=system, prompt=prompt,
                       paperText=paper_text, paperNotes=paper_notes,
                       imageSha256=hashlib.sha256(image_bytes).hexdigest(), think=THINK, renderer="flow-v3", revision="scenes-2-single-pass")
-        if is_sheet:record.update(protocol='paper.v2',texts=data['texts'],context=data['context'],revision='paper-v2-ink',renderer='didan-static-v1')
+        if is_sheet:record.update(protocol='paper.v2',texts=data['texts'],context=data['context'],revision='paper-v2-local-brush-1',renderer='didan-static-v1')
         (EVIDENCE / f"{rid}-input.png").write_bytes(image_bytes)
         def ask(messages):
             if PROVIDER == 'nebius':

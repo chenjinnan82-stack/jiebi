@@ -36,7 +36,7 @@ The brush adapts Catmull–Rom curves and stable pressure variation for an edita
 - The initial curtain verification used nine calls across three three-turn scenarios: words and a drawing, visual-only editing, and an explicit ending. Eight validated; one response used flattened coordinates and was rejected atomically. All protected objects remained unchanged. Both explicit endings returned `pause`. No paid repair or resampling occurred.
 - Model-request latency: median 7.158 seconds, range 2.260–13.081 seconds. The developer-page wait was 2.587–13.358 seconds. These are not native-extension latency measurements or a stable P95.
 - The subsequent actual Chrome recording shows a human envelope sketch, a model-generated stamp, a human move/erase and correction, a model-generated small loop, then explicit stopping. Model calls took 7.834 / 11.019 / 3.404 seconds. A separate follow-up produced a short text-only response in 8.455 seconds; it did not establish improved drawing. No model answer was scripted or redrawn.
-- Cumulative project ledger: $0.049685 over 17 calls, with no held reservations, including earlier tests and one unintended regression call. Total cap $1; development plus unknown holds capped at $0.50. Full-context reservations remain conservative. These are recorded usage estimates, not account-wide billing.
+- Cumulative project ledger: $0.081435 over 23 calls, with no held reservations, including earlier tests and one unintended regression call. Total cap $1; development plus unknown holds capped at $0.50. Full-context reservations remain conservative. These are recorded usage estimates, not account-wide billing.
 
 Keep the development adapter separate from the competition claim. Earlier recorded examples use `kimi-k3:cloud` through Ollama, with cloud inference; they must not be presented as Nebius outputs.
 
@@ -84,7 +84,7 @@ Do not publish verification drafts, absolute personal filesystem paths, API keys
 
 ### Platform feedback from actual use
 
-Token Factory let the application send a PNG alongside precise object and edit records without operating a GPU server. Reported token usage was useful for a persistent cost ledger. In the nine latest calls, model latency ranged from 2.260 to 13.081 seconds; this fits an asynchronous handoff better than a live drawing interaction.
+Token Factory let the application send a PNG alongside precise object and edit records without operating a GPU server. Reported token usage was useful for a persistent cost ledger. In the initial nine scenario calls, model latency ranged from 2.260 to 13.081 seconds; this fits an asynchronous handoff better than a live drawing interaction.
 
 A 2,800-token output limit could end before producing useful content; increasing it to 8,192 made room for reasoning and output. JSON-object mode still allowed an invalid flattened point array in one of nine later calls. Clearer per-model structured-output guarantees would help small apps avoid rejection without adding another model call. Our validator kept the original intact.
 
@@ -93,3 +93,8 @@ The optional company-website field in the promotional-credit form rejected the e
 ### Pre-existing work and changes
 
 SketchAgent and the referenced line-animation techniques predate this project and remain attributed. During this build we added the Chrome paper workflow, positioned editable text, shared text/ink grouping, user-edit protection, a durable asynchronous queue, exact change history, explicit stopping, a per-paper library, isolated iframe curtain, hosted-session boundary and Nebius cost controls. The external Bot interface is prepared but not claimed as a completed live integration.
+
+
+## Final UI and latest model evidence (0.5.2)
+
+The thin paper now offers both edge gestures and direct input-mode controls, contextual editing, a draft-only close and a visible handoff threshold. The last real local-frame trial produced a mailbox and then a cup after the person's correction, in 9.41 and 9.05 seconds. Its third turn added a tray despite an explicit ending, taking 19.60 seconds. That is a known semantic failure, not a successful pause. Human-edit protection passed. No personal assistant memory has been connected. The existing public Chrome video shows the earlier 0.5.1 three-turn exchange and is labelled accordingly.

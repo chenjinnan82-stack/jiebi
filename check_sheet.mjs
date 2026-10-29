@@ -46,9 +46,10 @@ el('text-width').value=440;el('text-width').oninput();assert.equal(ui.paper().te
 el('text-editor').value='长'.repeat(2000);el('text-editor').oninput();assert.equal(ui.paper().texts[0].text,'我改后的原话');assert.equal(writes.at(-1).editorDraft2.text.length,2000);assert.equal(ui.finishEditor(),false);
 el('text-editor').value='我改后的原话';el('text-editor').oninput();assert.equal(ui.finishEditor(),true);
 const event=(x,y=100)=>({button:0,ctrlKey:false,pointerId:1,clientX:x,clientY:y});
-el('text-editor').oncompositionstart();await ui.fold();assert.equal(closed,0,'IME composition cannot hand off an unfinished phrase');el('text-editor').oncompositionend();
+ui.startEditor(ui.paper().texts[0]);const beforeComposition=ui.paper().texts[0].text;el('text-editor').oncompositionstart();el('text-editor').value='输入法候选';el('text-editor').oninput();assert.equal(ui.paper().texts[0].text,beforeComposition);assert.equal(writes.at(-1).editorDraft2.text,'输入法候选');await ui.fold();assert.equal(closed,0,'IME composition cannot hand off an unfinished phrase');el('text-editor').oncompositionend();assert.equal(ui.paper().texts[0].text,'输入法候选');el('finish-text').onclick();assert(el('edit-actions').hidden);
 el('roll-handle').onpointerdown(event(300,500));el('roll-handle').onpointermove(event(300,465));el('roll-handle').onpointerup(event(300,465));assert.equal(closed,0,'short roll gesture does not send');
-el('roll-handle').onpointerdown(event(300,500));el('roll-handle').onpointermove(event(300,400));el('roll-handle').onpointercancel();assert.equal(closed,0,'cancelled roll does not send');
+el('roll-handle').onpointerdown(event(300,500));el('roll-handle').onpointermove(event(300,400));assert.equal(el('curtain').dataset.armed,'true');el('roll-handle').onpointercancel();el('roll-handle').onclick();assert.equal(el('curtain').dataset.armed,'false');assert.equal(closed,0,'cancelled roll and trailing click do not send');
+el('mode-draw').onclick();assert.equal(el('mode-draw').attrs['aria-pressed'],true);el('mode-text').onclick();assert.equal(el('mode-text').attrs['aria-pressed'],true);
 el('mode-edge').onpointerdown(event(20,580));el('mode-edge').onpointerup(event(90,580));assert.equal(el('mode-word').textContent,'画画');
 el('paper').onpointerdown(event(80,250));el('paper').onpointermove(event(300,250));el('paper').onpointerup();assert.equal(el('mode-word').textContent,'画画','horizontal drawing never switches mode');el('undo').onclick();assert.equal(ui.paper().strokes.length,3);
 tools[3].onclick();

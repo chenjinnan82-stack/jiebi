@@ -14,3 +14,25 @@ dialog{border:1px solid var(--edge);padding:16px;width:min(390px,90vw);max-heigh
 #access-code{display:block;margin:0 10px;width:calc(100% - 20px);padding:5px;border:1px solid var(--edge);background:transparent;border-radius:3px;color:var(--ink)}
 
 .paper-card{position:relative}.paper-card[data-phase=ready]:after,.paper-card[data-phase=waiting]:after{content:'';position:absolute;right:6px;top:6px;width:5px;height:5px;border-radius:50%;background:var(--ai)}.paper-card[data-phase=waiting]:after{border:1px solid var(--human);background:transparent}
+
+/* The paper is the surface; tools sit on its edge and appear only when useful. */
+:root{--ink:#29423e;--muted:#60766c;--edge:#dbe3da}
+main{padding:17px 20px 22px;border-radius:5px 5px 1px 1px;box-shadow:0 1px 2px #243e3612,0 14px 34px #243e3618,0 0 0 .6px #d6dfd5}
+header{height:34px;margin-bottom:12px;gap:3px}h1{font-size:17px;letter-spacing:.16em;color:#41675e}header button{width:34px;height:34px;min-width:34px}#more-toggle{margin-right:9px}#save-only{order:2;color:#7a8a80}#more-toggle{order:1}#save-only svg{width:16px;height:16px}
+button{transition:background 120ms ease,color 120ms ease}button:active:not(:disabled){background:#dce7df}button svg{stroke-width:1.5}button:disabled{opacity:.3}
+footer{margin-top:12px;padding-top:9px;min-height:47px;border-top-color:#dbe3da99}nav{gap:4px}nav button{width:34px;height:34px}
+#mode-edge{min-width:0;min-height:36px;gap:2px;padding:0;letter-spacing:0;font:13px/1.4 -apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;border-radius:6px;background:#edf1eb80;position:relative}
+#mode-edge button{min-width:48px;min-height:34px;padding:6px 9px;border-radius:5px;color:#7a8b81;transform:translateX(var(--slip,0px));transition:transform 180ms ease,background 120ms ease}
+#mode-edge[data-dragging=true] button{transition:none}#mode-edge button[aria-pressed=true]{color:var(--human);background:#e0ebe3;box-shadow:inset 0 -2px #316c6740}#mode-edge button:focus-visible{outline-offset:0}
+#edit-actions{display:flex;gap:2px;padding:0;background:transparent}footer:has(#edit-actions:not([hidden])) nav{display:none}
+#edit-actions button{font-size:12px;min-height:30px;padding:4px 9px}#finish-text{color:var(--human)}#delete-selected{color:var(--ai)}
+#text-editor{border-bottom:1px solid #aac7b9;box-shadow:0 2px 0 #316c6706;caret-color:var(--human)}
+#status{position:relative;bottom:auto;left:auto;right:auto;margin:7px 2px 0;font-size:12px;line-height:1.5;color:#8a4d61;overflow-wrap:anywhere}
+#paper-corner{width:28px;height:28px;transition:width 160ms,height 160ms}#paper-corner:hover,#paper-corner:focus-visible{width:34px;height:34px}
+#roll-handle{height:36px;min-height:36px}#roll-handle:before{inset:5px 0;border-radius:3px 3px 9px 9px;background:linear-gradient(180deg,#dce4d7,#f5f8f0 22%,#fff 46%,#e9eee2 86%,#cfdac4);box-shadow:0 -3px 9px #40503808,0 2px 3px #35442a18,0 5px 12px #35442a0a}#roll-handle:after{top:6px}
+.roll-grip{position:absolute;left:calc(50% - 12px);top:6px;width:24px;height:24px;color:#78927e;opacity:calc(var(--open)*.6);transition:color 120ms,opacity 120ms,transform 160ms}.roll-grip svg{width:20px;height:20px}
+#curtain[data-armed=true] .roll-grip{opacity:1;color:var(--human);transform:translateY(-3px)}#curtain[data-armed=true] #roll-handle:before{border-bottom-color:var(--human)}
+#more{right:16px;top:54px;width:248px;padding:8px;border-radius:8px}#more>button,#more summary{font-size:13px;padding:9px 10px;min-height:36px}#more details{margin-top:8px;padding-top:8px}#close{color:var(--human)}#text-sizing{font-size:12px}#more input,#more select{min-height:32px;font:12px/1.5 inherit}#connection{line-height:1.5}#history li{gap:8px;font-size:12px}
+#paper-stack{inset:54px 16px 62px;padding:16px;border-radius:8px;box-shadow:0 8px 25px #30463812}#paper-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.paper-card{border-radius:3px;transition:transform 140ms,box-shadow 140ms}.paper-card:hover{transform:translateY(-2px);box-shadow:0 5px 10px #526b4e1a}.paper-card span{font-size:12px;padding:7px 8px}.paper-card[aria-current=true]{box-shadow:0 0 0 1px var(--human)}.paper-card.blank{min-height:140px;border-style:dashed;background:transparent;color:var(--muted)}
+@media(max-width:340px){main{padding-left:14px;padding-right:14px}nav{gap:0}nav button{width:30px;min-width:30px}#mode-edge button{min-width:42px;padding:5px 6px}#more{width:calc(100% - 24px);right:12px}#paper-stack{left:12px;right:12px}}
+@media(prefers-reduced-motion:reduce){button,#mode-edge button,#paper-corner,.roll-grip,.paper-card{transition:none}.paper-card:hover{transform:none}}

@@ -6,7 +6,7 @@ Jiebi is an experimental Chrome extension. The paper belongs to you: move an ass
 
 [Introduction & download](https://chenjinnan82-stack.github.io/jiebi/) · [Verification notes](RELEASE_NOTES.md)
 
-Release status: **0.5.1 preview**. The curtain now has an actual Chrome three-round recording, ten open/fold checks and cross-website draft restoration. Hosted review access, system IME testing and final submission remain pending. Drawing quality is still uneven; see the verification notes.
+Release status: **0.5.2 preview**. The curtain now has an actual Chrome three-round recording, ten open/fold checks and cross-website draft restoration. Hosted review access, system IME testing and final submission remain pending. Drawing quality is still uneven; see the verification notes.
 
 ## Use the paper
 
