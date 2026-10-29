@@ -6,7 +6,7 @@ Jiebi is an experimental Chrome extension. The paper belongs to you: move an ass
 
 [Introduction & download](https://chenjinnan82-stack.github.io/jiebi/) · [Verification notes](RELEASE_NOTES.md)
 
-Release status: **0.5.2 preview**. The curtain now has an actual Chrome three-round recording, ten open/fold checks and cross-website draft restoration. Hosted review access, system IME testing and final submission remain pending. Drawing quality is still uneven; see the verification notes.
+Release status: **0.5.2 preview**. The curtain now has an actual Chrome three-round recording, ten open/fold checks and cross-website draft restoration. Hosted inference is live at https://sanliang.online/jiebi/; system IME testing and final submission remain pending. Drawing quality is still uneven; see the verification notes.
 
 ## Use the paper
 
@@ -17,6 +17,10 @@ Release status: **0.5.2 preview**. The curtain now has an actual Chrome three-ro
 - A small moving mark means a handoff is pending; a still rose mark means a reply is ready. Reopen when you choose. Any input ends the one-second ink reveal and restores the complete editable response.
 
 Keyboard: focus the bottom mode edge and use left/right; `T` writes, `P` draws, `V` selects, `E` erases. On the canvas, Enter cycles objects, Shift+Enter edits text, arrows move, Shift+arrows move further, Delete erases, Command/Ctrl+G groups, Command/Ctrl+Z undoes. Command/Ctrl+Enter hands over. The roll also supports Enter, Up and Down. Reduced-motion settings disable the animation.
+
+## Hosted judge setup
+
+Install the Chrome extension from the release. In the paper’s more menu, expand **助手连接**, select **评审服务**, enter the private Devpost access code and press **保存连接**. Keep **内置助手** selected. The hosted endpoint is https://sanliang.online/jiebi/. No local terminal or model account is required. The service is rate- and budget-limited; no payment is requested from judges.
 
 ## Run locally
 
@@ -103,4 +107,4 @@ Based on [SketchAgent](https://github.com/yael-vinker/SketchAgent), by Yael Vink
 The browser brush adapts curve and stable-pressure techniques from a user-supplied line-animation engine. See [ENGINE_SOURCE.md](ENGINE_SOURCE.md). No film assets or unrelated private project files are included.
 
 
-Public demonstration: [Actual Chrome, three turns (2:51)](https://youtu.be/MJYtpf5_CFU). This is the 0.5.1 recording; version 0.5.2 refines the UI. Model waits are retained. Hosted judge access is still pending.
+Public demonstration: [Actual Chrome, three turns (2:51)](https://youtu.be/MJYtpf5_CFU). This is the 0.5.1 recording; version 0.5.2 refines the UI. Model waits are retained. Hosted inference has completed one real request in 20.8 seconds. Judges receive the service access code privately through Devpost.
