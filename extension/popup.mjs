@@ -58,7 +58,7 @@ const position=e=>{const r=canvas.getBoundingClientRect();return [Math.max(12,Ma
 function eraseAt(p){const id=hit(p,gesture.preview);if(id){gesture.ids.push(id);gesture.preview=eraseItems(gesture.preview,[id],false);}}
 canvas.onpointerdown=e=>{
  if(e.button!==0||e.ctrlKey||!ready||!canSave||folding||!finishEditor())return;stopReveal();const p=position(e);canvas.focus();
- if(tool==='text'){const old=paper.texts.find(t=>t.id===hit(p));if(old)startEditor(old);else startEditor({id:'human-'+crypto.randomUUID(),author:'human',humanEdited:false,text:'',x:Math.min(500,p[0]),y:Math.min(572,p[1]),w:Math.min(352,600-Math.min(500,p[0]))});return;}
+ if(tool==='text'){const old=paper.texts.find(t=>t.id===hit(p));if(old)startEditor(old);else startEditor({id:'human-'+crypto.randomUUID(),author:'human',humanEdited:false,text:'',x:Math.min(500,p[0]),y:Math.min(572,p[1]),w:Math.min(520,600-Math.min(500,p[0]))});return;}
  canvas.setPointerCapture(e.pointerId);
  if(tool==='draw'){if(paper.strokes.length>=100)return notice('纸面已满，请先整理几笔。');selection=[];gesture={type:'draw',points:[p]};}
  else if(tool==='erase'){selection=[];gesture={type:'erase',preview:clone(paper),ids:[],last:p};eraseAt(p);}
@@ -131,7 +131,7 @@ async function loadPaper(id,ticket=opening){
  if(ticket!==opening||!expanded)return;
  ready=true;render();
  if(reveal&&!reduced()){const began=performance.now();const animate=now=>{if(!reveal)return;reveal.progress=Math.min(1,(now-began)/1000);paint();if(reveal.progress<1)revealFrame=requestAnimationFrame(animate);else{reveal=null;paint();}};revealFrame=requestAnimationFrame(animate);}
- else{reveal=null;if(draft)startEditor(draft);else if(!presentedNow&&inputMode==='text'&&paper.texts.some(t=>t.id===lastText))startEditor(paper.texts.find(t=>t.id===lastText));else if(!items(paper).length&&inputMode==='text')startEditor({id:'human-'+crypto.randomUUID(),author:'human',humanEdited:false,text:'',x:24,y:24,w:352});}
+ else{reveal=null;if(draft)startEditor(draft);else if(!presentedNow&&inputMode==='text'&&paper.texts.some(t=>t.id===lastText))startEditor(paper.texts.find(t=>t.id===lastText));else if(!items(paper).length&&inputMode==='text')startEditor({id:'human-'+crypto.randomUUID(),author:'human',humanEdited:false,text:'',x:24,y:24,w:552});}
 }
 async function openPaper(settle=true){
  if(expanded){if(settle)setOpening(1);return;}expanded=true;const ticket=++opening;body.inert=false;curtain.dataset.expanded='true';await rpc('surface',{expanded:true});
@@ -151,8 +151,11 @@ window.addEventListener('pagehide',()=>{persist();});
 document.addEventListener('visibilitychange',()=>{document.body.dataset.hidden=String(document.hidden);if(document.hidden)temporaryHide();});
 $('recipient').onchange=()=>{recipient=$('recipient').value;persist();};
 function chooseInput(mode){if(!finishEditor())return;inputMode=tool=mode;$('mode-word').textContent=mode==='text'?'写字':'画画';$('mode-edge').dataset.mode=mode;selection=[];stopReveal();render();canvas.focus();}
-let modeStart=null;const edge=$('mode-edge');edge.onpointerdown=e=>{if(e.button!==0)return;modeStart=[e.clientX,e.clientY];edge.setPointerCapture(e.pointerId);};
-edge.onpointerup=e=>{if(!modeStart)return;const dx=e.clientX-modeStart[0],dy=e.clientY-modeStart[1];modeStart=null;if(Math.abs(dx)>24&&Math.abs(dx)>Math.abs(dy))chooseInput(dx>0?'draw':'text');};edge.onpointercancel=()=>modeStart=null;
+let modeStart=null;const edge=$('mode-edge');
+function settleMode(){modeStart=null;edge.dataset.dragging='false';edge.style.setProperty('--slip','0px');}
+edge.onpointerdown=e=>{if(e.button!==0)return;modeStart=[e.clientX,e.clientY];edge.dataset.dragging='true';edge.setPointerCapture(e.pointerId);};
+edge.onpointermove=e=>{if(modeStart)edge.style.setProperty('--slip',Math.max(-18,Math.min(18,(e.clientX-modeStart[0])*.35))+'px');};
+edge.onpointerup=e=>{if(!modeStart)return;const dx=e.clientX-modeStart[0],dy=e.clientY-modeStart[1];settleMode();if(Math.abs(dx)>24&&Math.abs(dx)>Math.abs(dy))chooseInput(dx>0?'draw':'text');};edge.onpointercancel=settleMode;
 edge.onkeydown=e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();chooseInput(e.key==='ArrowRight'?'draw':'text');}};
 document.addEventListener('keydown',e=>{if(e.target===editor||e.isComposing||e.metaKey||e.ctrlKey||e.altKey||!expanded)return;if(e.key.toLowerCase()==='t')chooseInput('text');if(e.key.toLowerCase()==='p')chooseInput('draw');if(['v','e'].includes(e.key.toLowerCase())){finishEditor();tool=e.key.toLowerCase()==='v'?'select':'erase';render();canvas.focus();}});
 let rollDrag=null,skipClick=false;const handle=$('roll-handle');

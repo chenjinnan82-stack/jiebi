@@ -1,6 +1,6 @@
 # Jiebi — A shared paper for human and AI
 
-**Submission draft, not yet submitted. Three real three-round Nebius/NVIDIA scenarios have been recorded in a developer harness. The new curtain still needs installed-Chrome verification; hosted judge access and the continuous target-platform video remain incomplete.**
+**Submission draft, not yet submitted. Three three-round Nebius/NVIDIA scenarios were tested in a developer harness, followed by a real installed-Chrome three-round recording. A 172-second edited demonstration preserves all three model waits. Hosted judge access, public YouTube upload and final submission remain incomplete.**
 
 Suggested track: Best Apps and Agents.
 
@@ -33,9 +33,10 @@ The brush adapts Catmull–Rom curves and stable pressure variation for an edita
 - Nebius runtime endpoint: `https://api.tokenfactory.nebius.com/v1/chat/completions`, authenticated and called by the project.
 - NVIDIA model: `nvidia/Nemotron-3.5-Super-VL`, verified with actual PNG input and structured paper context.
 - Actual runtime responsibility: the model must read the paper and generate the real editable contribution, not merely label or log a response from another model.
-- The latest verification used nine calls across three three-turn scenarios: words and a drawing, visual-only editing, and an explicit ending. Eight validated; one response used flattened coordinates and was rejected atomically. All protected objects remained unchanged. Both explicit endings returned `pause`. No paid repair or resampling occurred.
+- The initial curtain verification used nine calls across three three-turn scenarios: words and a drawing, visual-only editing, and an explicit ending. Eight validated; one response used flattened coordinates and was rejected atomically. All protected objects remained unchanged. Both explicit endings returned `pause`. No paid repair or resampling occurred.
 - Model-request latency: median 7.158 seconds, range 2.260–13.081 seconds. The developer-page wait was 2.587–13.358 seconds. These are not native-extension latency measurements or a stable P95.
-- Cumulative project ledger: $0.035729 over 13 calls, including earlier tests and one unintended regression call. Total cap $1; development plus unknown holds capped at $0.50. Full-context reservations remain conservative. These are recorded usage estimates, not account-wide billing.
+- The subsequent actual Chrome recording shows a human envelope sketch, a model-generated stamp, a human move/erase and correction, a model-generated small loop, then explicit stopping. Model calls took 7.834 / 11.019 / 3.404 seconds. A separate follow-up produced a short text-only response in 8.455 seconds; it did not establish improved drawing. No model answer was scripted or redrawn.
+- Cumulative project ledger: $0.049685 over 17 calls, with no held reservations, including earlier tests and one unintended regression call. Total cap $1; development plus unknown holds capped at $0.50. Full-context reservations remain conservative. These are recorded usage estimates, not account-wide billing.
 
 Keep the development adapter separate from the competition claim. Earlier recorded examples use `kimi-k3:cloud` through Ollama, with cloud inference; they must not be presented as Nebius outputs.
 
@@ -51,7 +52,7 @@ Making a response editable introduces problems that a flat generated image does 
 
 Expression is still uneven. Text-and-sketch exchanges have produced legible responses and respected explicit endings. Purely graphical edits are harder: in one test the assistant added more rain marks instead of clearly responding to a new corner. The model has not yet demonstrated reliable voluntary cleanup of its previous drawing. We preserve these results instead of presenting every valid JSON response as successful communication.
 
-Earlier toolbar versions were verified in Chrome on an M1 Pro. The 0.5 curtain has not yet passed its final installed-Chrome tests. The project has not been validated as an offline or fully local inference product, and it does not yet connect to a personal assistant's private memory.
+The curtain was exercised for more than fourteen minutes in actual Chrome on an M1 Pro, including ten empty/unchanged open/fold cycles with no new model jobs, a real three-turn exchange and cross-website draft restoration. Fourteen native save/enqueue samples ranged from 11.1 to 56.9 ms, excluding animation and model/network wait. System Chinese IME and sustained frame rate are still unmeasured. One drag did not submit and the explicit alternative was used. The project has not been validated as an offline or fully local inference product, and it does not yet connect to a personal assistant's private memory.
 
 ## What's next
 
@@ -62,7 +63,7 @@ Improve how the assistant interprets a person's changes and decides what to keep
 - [x] Real Nebius + NVIDIA image and three-round exchange verification (three scenarios; one rejected response and uneven expression disclosed).
 - [ ] Working, free judge access without the author's laptop being online.
 - [x] Public repository owned by the entrant, with license and English setup instructions: https://github.com/chenjinnan82-stack/jiebi
-- [ ] New curtain permissions and installed-Chrome interaction/performance checks.
+- [x] Curtain permission, actual Chrome three-turn exchange, ten open/fold cycles and save/enqueue timing; remaining IME, gesture and frame-rate limits disclosed.
 - [ ] Actual Chrome demonstration under three minutes, publicly visible on YouTube, with English narration or captions.
 - [ ] All links checked, limits disclosed, and the provider/model names match the recording.
 - [ ] Final Devpost form, platform feedback, and required account/terms confirmation.
@@ -87,7 +88,7 @@ Token Factory let the application send a PNG alongside precise object and edit r
 
 A 2,800-token output limit could end before producing useful content; increasing it to 8,192 made room for reasoning and output. JSON-object mode still allowed an invalid flattened point array in one of nine later calls. Clearer per-model structured-output guarantees would help small apps avoid rejection without adding another model call. Our validator kept the original intact.
 
-The optional company-website field in the promotional-credit form rejected the entrant's GitHub profile. The credit application and expiration are not yet verified; no conclusion about long-term free availability is claimed.
+The optional company-website field in the promotional-credit form rejected the entrant's GitHub profile. The application was submitted using the entrant's personal website instead. Credit receipt and expiration are not yet verified; no conclusion about long-term free availability is claimed.
 
 ### Pre-existing work and changes
 

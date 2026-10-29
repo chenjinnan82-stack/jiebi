@@ -486,7 +486,14 @@ Do not repeat existing strokes or text as new additions. Existing objects remain
 The attached PNG and structured objects are the SAME 612x612 paper, including all visible text.
 Coordinates are pixel numbers: origin TOP LEFT, x right, y DOWN. All ink must stay within 12..600.
 Grey coordinate grid is a measurement guide, not content. Human ink is teal; yours is rose.
-Choose a legible small subject; finish its distinguishing features. Leave room around existing text.
+Choose one coherent visual idea, not a token decoration. The paper is normally shown only 420px
+wide: a tiny square or isolated arc can be invisible or ambiguous at that size. Use a readable
+silhouette and the few distinguishing features the idea needs; leave breathing room. A useful
+addition may take 80-200px of this 612px paper. Small details are fine when attached to a legible
+whole. This is scale guidance, not a required icon, subject, mood, or number of strokes.
+If a visual response cannot clearly carry your meaning, a specific short sentence is a complete
+response too. Do not mechanically stamp, circle, underline, or decorate a noun just to add ink.
+Leave room around existing text.
 Strokes list points along the line, NOT Bezier handles. The pen passes through these points.
 Use auto to preserve sharp turns while smoothing gentle bends, flow for deliberately smooth contours, corner for
 deliberate corners. 6-20 spaced points usually work; a repeated first point closes a contour.

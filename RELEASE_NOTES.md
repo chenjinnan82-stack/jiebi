@@ -1,6 +1,18 @@
-# 0.5 preview — October 29, 2026
+# 0.5.1 preview — October 29, 2026
 
 This is an implementation preview, not a completed competition submission. [Static introduction and extension download](https://chenjinnan82-stack.github.io/jiebi/) and [public source](https://github.com/chenjinnan82-stack/jiebi) are available; hosted inference remains pending.
+
+## This revision: actual Chrome and a steadier paper
+
+The curtain keeps its width while rolling, so the paper no longer narrows and stretches during handoff. The roll has a quieter paper-back gradient and edge shadow. The input-mode label follows the edge gesture. Text width moved into the menu and new text starts with more usable writing space. No new dependency or permission was added.
+
+An installed Chrome session on an M1 Pro covered more than fourteen minutes of actual interaction, including ten explicit empty/unchanged open/fold cycles, short-gesture cancellation, drawing, moving and erasing assistant marks, and restoring an edited draft on another website. Those ten cycles created no model jobs. Fourteen native-console save/enqueue samples ranged from **11.1 to 56.9 ms**; they exclude the 420 ms animation and model/network wait. This is not a measured 60 fps or P95 claim.
+
+A real three-turn exchange used a hand-drawn envelope and ordinary scripted human inputs. The first response added two tiny nested squares (a stamp); after moving that group, erasing its inner square and clarifying the meaning, the second added a small loop. The third accepted an explicit ending with `pause`. Model times were **7.834 / 11.019 / 3.404 s**. The original browser recording is continuous; its 172-second edit keeps all three model waits, crops to the paper, and removes human/tool idle gaps without speeding up playback. It is available on the introduction page; a public YouTube upload is still pending.
+
+These small marks are not a convincing finished visual response. After a prompt adjustment asking for legible, coherent forms at the actual paper size, one separate bench-and-river test returned only “坐下来，先歇歇。” in **8.455 s**. This is a relevant short sentence, not evidence that drawing quality improved. There were no resamples or paid repairs.
+
+The latest cumulative ledger reports **$0.049685 across 17 calls**, with **$0 held**. The $1 cap and $0.50 development/unknown-hold boundary remain. Offline checks still pass. Real system Chinese IME, a current-version full browser restart and frame-rate measurement remain unverified; an earlier toolbar version's full restart test remains historical evidence only. One recorded drag did not submit; the explicit alternative did. The gesture is not claimed flawless.
 
 ## Included
 
@@ -24,7 +36,7 @@ Eight of nine responses passed validation. Protected input objects were unchange
 
 Model-request time: median **7.158 s**, range **2.260–13.081 s**. Developer-page visible wait: **2.587–13.358 s**, including 500 ms polling and canvas submission. Nine observations are not a stable P95 estimate. The original 3 s / 5 s targets are not met.
 
-The cumulative project ledger after these tests reports **$0.035729** over 13 calls, with **$0** held. This includes earlier tests and one unintended regression-test call; it is not an account-wide bill. The $1 project cap remains, with development and unknown holds limited to $0.50. Current maximum output is 8,192 tokens and each request reserves $0.321946 before starting; the previous 2,800-token limit could be consumed by reasoning without a usable reply.
+At the earlier nine-turn checkpoint, the ledger reported **$0.035729** over 13 calls, with **$0** held. This includes earlier tests and one unintended regression-test call; it is not an account-wide bill. The current total is above. Current maximum output is 8,192 tokens and each request reserves $0.321946 before starting; the previous 2,800-token limit could be consumed by reasoning without a usable reply.
 
 ## Verification and remaining gates
 
@@ -32,7 +44,7 @@ Offline checks cover paper edits, Chinese composition events, cancelled gestures
 
 Developer-preview checks also completed ten consecutive empty-paper open/fold cycles without enqueuing a model request (software preparation 1.1–2.0 ms; this excludes animation and is not native Chrome). A local production-mode smoke check used one master plus one worker, with summed idle RSS 73,312 KB and 20 status requests at median 0.75 ms; these are not remote server or model-load measurements.
 
-Pending: the new site permission and actual Chrome curtain upgrade; real cross-tab/IME/ten-minute and continuous-video validation; remote host access and deployment; the free-credit form and expiry; optional live Grok Bot setup; final judging and submission. Prior toolbar-version tests are not a substitute for these.
+Site permission was approved and the actual Chrome curtain was upgraded and exercised. The promotional-credit form was submitted, but receipt of credits and expiry are unverified. An independent Grok test Bot and webhook routine were created; end-to-end callback validation is pending. Remote-host access still needs the owner's MFA. Hosted judging, system IME, YouTube publication and final submission are incomplete. Devpost login succeeded, but no entry or final terms were submitted.
 
 ## Recovery notes
 
