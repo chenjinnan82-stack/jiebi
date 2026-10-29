@@ -6,7 +6,7 @@ Jiebi is an experimental Chrome extension. The paper belongs to you: move an ass
 
 [Introduction & download](https://chenjinnan82-stack.github.io/jiebi/) · [Verification notes](RELEASE_NOTES.md)
 
-Release status: **0.5.2 preview**. The curtain now has an actual Chrome three-round recording, ten open/fold checks and cross-website draft restoration. Hosted inference is live at https://sanliang.online/jiebi/; system IME testing and final submission remain pending. Drawing quality is still uneven; see the verification notes.
+Release status: **0.5.3 preview**. The curtain now has an actual Chrome three-round recording, ten open/fold checks and cross-website draft restoration. Hosted inference is live at https://sanliang.online/jiebi/; system IME testing and final submission remain pending. Drawing quality is still uneven; see the verification notes.
 
 ## Use the paper
 
@@ -107,4 +107,4 @@ Based on [SketchAgent](https://github.com/yael-vinker/SketchAgent), by Yael Vink
 The browser brush adapts curve and stable-pressure techniques from a user-supplied line-animation engine. See [ENGINE_SOURCE.md](ENGINE_SOURCE.md). No film assets or unrelated private project files are included.
 
 
-Public demonstration: [Actual Chrome, three turns (2:51)](https://youtu.be/MJYtpf5_CFU). This is the 0.5.1 recording; version 0.5.2 refines the UI. Model waits are retained. Hosted inference has completed one real request in 20.8 seconds. Judges receive the service access code privately through Devpost.
+Public demonstration: [Actual Chrome, three turns (2:51)](https://youtu.be/MJYtpf5_CFU). This is the 0.5.1 recording; version 0.5.3 refines the UI. Model waits are retained. Hosted inference has completed one real request in 20.8 seconds. Judges receive the service access code privately through Devpost.

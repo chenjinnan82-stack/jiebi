@@ -1,4 +1,4 @@
-# 0.5.2 preview — October 29, 2026
+# 0.5.3 preview — October 29, 2026
 
 This revision refines the existing paper. It does not establish reliable natural conversation or complete competition submission.
 

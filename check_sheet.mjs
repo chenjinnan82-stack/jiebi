@@ -50,6 +50,7 @@ ui.startEditor(ui.paper().texts[0]);const beforeComposition=ui.paper().texts[0].
 el('roll-handle').onpointerdown(event(300,500));el('roll-handle').onpointermove(event(300,465));el('roll-handle').onpointerup(event(300,465));assert.equal(closed,0,'short roll gesture does not send');
 el('roll-handle').onpointerdown(event(300,500));el('roll-handle').onpointermove(event(300,400));assert.equal(el('curtain').dataset.armed,'true');el('roll-handle').onpointercancel();el('roll-handle').onclick();assert.equal(el('curtain').dataset.armed,'false');assert.equal(closed,0,'cancelled roll and trailing click do not send');
 el('mode-draw').onclick();assert.equal(el('mode-draw').attrs['aria-pressed'],true);el('mode-text').onclick();assert.equal(el('mode-text').attrs['aria-pressed'],true);
+for(const key of ['t','p','v','e'])document.listeners.keydown({key,target:{closest:()=>true},preventDefault(){}});assert.equal(el('mode-text').attrs['aria-pressed'],true,'connection fields must not trigger paper shortcuts');
 el('mode-edge').onpointerdown(event(20,580));el('mode-edge').onpointerup(event(90,580));assert.equal(el('mode-word').textContent,'画画');
 el('paper').onpointerdown(event(80,250));el('paper').onpointermove(event(300,250));el('paper').onpointerup();assert.equal(el('mode-word').textContent,'画画','horizontal drawing never switches mode');el('undo').onclick();assert.equal(ui.paper().strokes.length,3);
 tools[3].onclick();
