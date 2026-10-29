@@ -1,6 +1,6 @@
 # Jiebi — A shared paper for human and AI
 
-**Submission draft, not yet submitted. Three three-round Nebius/NVIDIA scenarios were tested in a developer harness, followed by a real installed-Chrome three-round recording. A 172-second edited demonstration preserves all three model waits. Hosted judge access, public YouTube upload and final submission remain incomplete.**
+**Submission draft, not yet submitted. Three three-round Nebius/NVIDIA scenarios were tested in a developer harness, followed by a real installed-Chrome three-round recording. A 172-second edited demonstration preserves all three model waits. The public YouTube demonstration is available; hosted judge access and final submission remain incomplete.**
 
 Suggested track: Best Apps and Agents.
 
@@ -64,7 +64,7 @@ Improve how the assistant interprets a person's changes and decides what to keep
 - [ ] Working, free judge access without the author's laptop being online.
 - [x] Public repository owned by the entrant, with license and English setup instructions: https://github.com/chenjinnan82-stack/jiebi
 - [x] Curtain permission, actual Chrome three-turn exchange, ten open/fold cycles and save/enqueue timing; remaining IME, gesture and frame-rate limits disclosed.
-- [ ] Actual Chrome demonstration under three minutes, publicly visible on YouTube, with English narration or captions.
+- [x] Actual Chrome demonstration under three minutes, publicly visible on YouTube, with English on-screen explanation: https://youtu.be/MJYtpf5_CFU
 - [ ] All links checked, limits disclosed, and the provider/model names match the recording.
 - [ ] Final Devpost form, platform feedback, and required account/terms confirmation.
 
@@ -80,7 +80,7 @@ Do not publish verification drafts, absolute personal filesystem paths, API keys
 - Code: https://github.com/chenjinnan82-stack/jiebi
 - Introduction and download: https://chenjinnan82-stack.github.io/jiebi/
 - Hosted generation / reviewer instructions: **pending**. The introduction URL is not a claim of working hosted inference.
-- Public YouTube video: **pending**. Do not substitute a screenshot sequence or developer harness.
+- Public YouTube video: https://youtu.be/MJYtpf5_CFU — real Chrome 0.5.1 recording, 2:51. Current UI is 0.5.2.
 
 ### Platform feedback from actual use
 
@@ -98,3 +98,8 @@ SketchAgent and the referenced line-animation techniques predate this project an
 ## Final UI and latest model evidence (0.5.2)
 
 The thin paper now offers both edge gestures and direct input-mode controls, contextual editing, a draft-only close and a visible handoff threshold. The last real local-frame trial produced a mailbox and then a cup after the person's correction, in 9.41 and 9.05 seconds. Its third turn added a tray despite an explicit ending, taking 19.60 seconds. That is a known semantic failure, not a successful pause. Human-edit protection passed. No personal assistant memory has been connected. The existing public Chrome video shows the earlier 0.5.1 three-turn exchange and is labelled accordingly.
+
+
+## Submission progress — October 29
+
+The entrant registered for the hackathon with the confirmed independent-developer information and accepted the registration rules. Project creation is waiting for CAPTCHA completion. This is registration, not a submitted entry. The video is public on YouTube; hosted reviewer access is still pending.

@@ -101,3 +101,6 @@ They cover geometry, editing, Chinese composition events, cancelled gestures, mi
 Based on [SketchAgent](https://github.com/yael-vinker/SketchAgent), by Yael Vinker and collaborators. Its MIT [LICENSE](LICENSE), original core files and [upstream README](UPSTREAM_README.md) are retained. Jiebi adds the shared text/drawing paper, roll-up extension, paper stack, durable handoff, user-edit protection, actual-change context and validation. It does not claim the invention of language-model sketching.
 
 The browser brush adapts curve and stable-pressure techniques from a user-supplied line-animation engine. See [ENGINE_SOURCE.md](ENGINE_SOURCE.md). No film assets or unrelated private project files are included.
+
+
+Public demonstration: [Actual Chrome, three turns (2:51)](https://youtu.be/MJYtpf5_CFU). This is the 0.5.1 recording; version 0.5.2 refines the UI. Model waits are retained. Hosted judge access is still pending.
